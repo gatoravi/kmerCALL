@@ -1,0 +1,1 @@
+src/kmerCall --child ~/files/20110915_CEUtrio/WGS/BAMFiles/CEUTrio.HiSeq.WGS.b37_decoy.NA12878.l.bam --mom ~/files/20110915_CEUtrio/WGS/BAMFiles/CEUTrio.HiSeq.WGS.b37_decoy.NA12891.l.bam --dad ~/files/20110915_CEUtrio/WGS/BAMFiles/CEUTrio.HiSeq.WGS.b37_decoy.NA12892.l.bam  --output t2 --region 1:1000000-20000200
