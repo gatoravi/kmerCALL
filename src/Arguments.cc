@@ -20,6 +20,7 @@
 #include "Arguments.h"
 #include <iostream>
 #include <cstring>
+#include <cstdlib>
 Arguments::Arguments(int argc, char* argv[]) 
 {
     parseArguments(argc, argv);
@@ -41,27 +42,41 @@ bool Arguments::parseArguments(int argc, char* argv[])
 						{"mom_bam", required_argument, 0, 1}, 
 						{"dad_bam", required_argument, 0, 2}, 
                                                 {"output", required_argument, 0, 3},
-                                                {"region", required_argument, 0, 4}
+                                                {"chr", required_argument, 0, 4}, 
+                                                {"start", required_argument, 0, 5}, 
+                                                {"end", required_argument, 0, 6}, 
+						{"window", required_argument, 0, 7}
                                               };
         int c = getopt_long(argc, argv, "", long_options, &option_index);
         if(c == -1)
             break;
+	std::string T_optarg_string(optarg);
         switch(c) 
         {      
+	  
             case 0:
-	      child_bam_f.assign(optarg, sizeof(char) * strlen(optarg));
+	      child_bam_f = T_optarg_string;
 	      break;
             case 1:
-	      mom_bam_f.assign(optarg, sizeof(char) * strlen(optarg));
+	      mom_bam_f = T_optarg_string;
 	      break;
 	    case 2:
-	      dad_bam_f.assign(optarg, sizeof(char) * strlen(optarg));
+	      dad_bam_f = T_optarg_string;
 	      break;
             case 3:
 	      op_f = optarg;
 	      break;
             case 4:
-	      region = optarg;
+	      chr = optarg;
+	      break;
+            case 5:
+	      start = atol(optarg);
+	      break;
+            case 6:
+	      end = atol(optarg);
+	      break;
+            case 7:
+	      window_size = atoi(optarg);
 	      break;
     	    default:
 	      break;
@@ -96,7 +111,23 @@ std::string Arguments::getOPName()
   return op_f;
 }
 
-std::string Arguments::getRegion()
+std::string Arguments::getChr()
 {
-  return region;
+  return chr;
+}
+
+long Arguments::getStart()
+{
+  return start;
+}
+
+long Arguments::getEnd()
+{
+  return end;
+}
+
+
+int Arguments::getWindowSize()
+{
+  return window_size;
 }

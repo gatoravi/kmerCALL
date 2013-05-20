@@ -18,7 +18,8 @@
 */
 #include "JFCaller.h"
 #include <cstring>
-
+#include <fstream>
+using namespace std;
 JFCaller::JFCaller(const char* fasta)
 { 
   std::string temp(fasta);
@@ -27,7 +28,7 @@ JFCaller::JFCaller(const char* fasta)
 
 bool JFCaller::callJFCount()
 {
-  std::cout<<"Calling JellyFish Count"<<std::endl;
+  //std::cout<<"Calling JellyFish Count"<<std::endl;
   char arg1[] = "jellyfish\0";
   char arg2[] = "count\0";
   char arg3[] = "-m\0";
@@ -46,15 +47,15 @@ bool JFCaller::callJFCount()
   
   char* argv1[] = {arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9};
   int argc1 = sizeof(argv1)/sizeof(argv1[0]);
-  std::cout<<std::endl<<"ARGC1 "<<argc1<<"\t"<<arg9;
+  //std::cout<<std::endl<<"ARGC1 "<<argc1<<"\t"<<arg9;
   jf_main2(argc1, argv1);
-  std::cout<<std::endl<<"AFTER JF MAIN";
+  //std::cout<<std::endl<<"AFTER JF MAIN";
   return true;
 }
 
 bool JFCaller::callJFDump()
 {
-  std::cout<<std::endl<<"Calling JellyFish Dump"<<std::endl;
+  //std::cout<<std::endl<<"Calling JellyFish Dump"<<std::endl;
   char arg1[] = "jellyfish\0";
   char arg2[] = "dump\0";
   char arg3[] = "-c\0";
@@ -72,4 +73,22 @@ bool JFCaller::callJFDump()
   int argc1 = sizeof(argv1)/sizeof(argv1[0]);
   jf_main2(argc1, argv1);
   //std::cout<<std::endl<<"done dump";
+}
+
+bool JFCaller::is_mer_empty()
+{
+  fstream fin(mer_file.c_str());
+  fin.seekp(0,ios::end);
+  size_t size = fin.tellg();
+  fin.close();
+  if(size == 0) 
+    return true;
+  else 
+    return false;
+
+}
+
+std::string JFCaller::get_dump_op_file()
+{
+  return dump_op_file;
 }
